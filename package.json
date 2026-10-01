@@ -1,0 +1,25 @@
+{
+  "name": "agentbrow",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev:extension": "vite --config apps/extension/vite.config.ts",
+    "build:extension": "vite build --config apps/extension/vite.config.ts",
+    "typecheck:extension": "tsc --noEmit -p apps/extension/tsconfig.json"
+  },
+  "devDependencies": {
+    "@crxjs/vite-plugin": "^2.0.0-beta.26",
+    "@types/chrome": "^0.0.269",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.2"
+  },
+  "dependencies": {
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}

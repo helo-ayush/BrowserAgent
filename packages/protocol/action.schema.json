@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AgentBrow action",
+  "type": "object",
+  "required": ["type", "description"],
+  "properties": {
+    "type": {"enum": ["click", "type", "scroll", "navigate", "wait", "request_user", "confirm_purchase", "done"]},
+    "description": {"type": "string", "maxLength": 500},
+    "x": {"type": "integer", "minimum": 0},
+    "y": {"type": "integer", "minimum": 0},
+    "text": {"type": "string", "maxLength": 1000},
+    "direction": {"enum": ["up", "down"]},
+    "amount": {"type": "integer", "minimum": 100, "maximum": 1500},
+    "url": {"type": "string", "format": "uri"},
+    "milliseconds": {"type": "integer", "minimum": 100, "maximum": 5000},
+    "reason": {"type": "string", "maxLength": 500},
+    "summary": {"type": "object", "properties": {"merchant": {"type": "string"}, "item": {"type": "string"}, "total": {"type": "string"}, "currency": {"type": "string"}}}
+  },
+  "additionalProperties": false
+}
