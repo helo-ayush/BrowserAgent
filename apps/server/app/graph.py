@@ -3,13 +3,34 @@ from __future__ import annotations
 import os
 import threading
 import json
+import logging
 from typing import Any, TypedDict
 
+from dotenv import find_dotenv, load_dotenv
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langgraph.graph import END, START, StateGraph
 
 from .models import ActionPlan
+
+load_dotenv(find_dotenv(usecwd=True))
+logger = logging.getLogger("agentbrow.graph")
+
+FALLBACK_1X1_PNG = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVR4nGNiAAAABgADNjd8qAAAAABJRU5ErkJggg=="
+
+
+def _normalize_screenshot(screenshot: str | None) -> str:
+    if not screenshot or not isinstance(screenshot, str) or not screenshot.startswith("data:"):
+        return FALLBACK_1X1_PNG
+    try:
+        header, b64_data = screenshot.split(",", 1)
+        b64_data = b64_data.strip().replace("\n", "").replace("\r", "")
+        missing_padding = len(b64_data) % 4
+        if missing_padding:
+            b64_data += "=" * (4 - missing_padding)
+        return f"{header},{b64_data}"
+    except Exception:
+        return FALLBACK_1X1_PNG
 
 
 class AgentState(TypedDict, total=False):
@@ -199,6 +220,8 @@ def decide_next_action(state: AgentState) -> dict[str, ActionPlan]:
     if state.get("recent_actions"):
         context += "\n\nRecent normalized actions:\n" + "\n".join(state["recent_actions"][-8:])
 
+    screenshot_url = _normalize_screenshot(state.get("screenshot"))
+
     start = _round_robin_start(len(api_keys))
     last_error: Exception | None = None
     for offset in range(len(api_keys)):
@@ -217,7 +240,7 @@ def decide_next_action(state: AgentState) -> dict[str, ActionPlan]:
                     HumanMessage(
                         content=[
                             {"type": "text", "text": context},
-                            {"type": "image_url", "image_url": {"url": state["screenshot"]}},
+                            {"type": "image_url", "image_url": {"url": screenshot_url}},
                         ]
                     ),
                 ]
@@ -225,6 +248,7 @@ def decide_next_action(state: AgentState) -> dict[str, ActionPlan]:
             if response is not None:
                 return {"action": response}
         except Exception as error:
+            logger.warning("Gemini API call failed with key %d/%d: %s", offset + 1, len(api_keys), error)
             last_error = error
             continue
 

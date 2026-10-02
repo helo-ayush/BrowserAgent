@@ -11,7 +11,7 @@ const manifest: ManifestV3Export = {
     "48": "icon48.png",
     "128": "icon128.png",
   },
-  permissions: ["activeTab", "tabs", "storage", "sidePanel"],
+  permissions: ["activeTab", "tabs", "storage", "sidePanel", "clipboardRead"],
   // The side panel can be opened without clicking the toolbar action, so
   // activeTab is not necessarily granted. captureVisibleTab therefore needs
   // an explicit all-sites host permission for this screenshot-first MVP.

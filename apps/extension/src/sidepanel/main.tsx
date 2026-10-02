@@ -158,6 +158,33 @@ function App() {
     chatBottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [events.length, approval, running]);
 
+  // Window paste fallback so pasting anywhere in sidepanel lands in composer
+  useEffect(() => {
+    const handleWindowPaste = (e: ClipboardEvent) => {
+      if (document.activeElement !== textareaRef.current && !(document.activeElement instanceof HTMLInputElement)) {
+        const text = e.clipboardData?.getData("text");
+        if (text && textareaRef.current) {
+          e.preventDefault();
+          textareaRef.current.focus();
+          setDraft((prev) => {
+            const nextVal = (prev ? prev + " " : "") + text;
+            requestAnimationFrame(() => {
+              if (textareaRef.current) {
+                textareaRef.current.selectionStart = textareaRef.current.selectionEnd = nextVal.length;
+                textareaRef.current.style.height = "auto";
+                textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 140)}px`;
+              }
+            });
+            return nextVal;
+          });
+        }
+      }
+    };
+
+    window.addEventListener("paste", handleWindowPaste);
+    return () => window.removeEventListener("paste", handleWindowPaste);
+  }, []);
+
   const send = (message: WorkerMessage) => chrome.runtime.sendMessage(message);
 
   const startNewChat = () => {
@@ -202,6 +229,9 @@ function App() {
     const instruction = draft.trim();
     if (!instruction) return;
     setDraft("");
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+    }
 
     const now = Date.now();
     const userEvent: ChatItem = {
@@ -534,8 +564,15 @@ function App() {
       )}
 
       {/* Ultra-Clean Floating Bottom Composer (no chip, no plus, no flash) */}
-      <form className="composer-container" onSubmit={submit}>
-        <div className="composer-main-row">
+      <form
+        className="composer-container"
+        onSubmit={submit}
+        onClick={() => textareaRef.current?.focus()}
+      >
+        <div
+          className="composer-main-row"
+          onClick={() => textareaRef.current?.focus()}
+        >
           <textarea
             ref={textareaRef}
             value={draft}
@@ -545,6 +582,23 @@ function App() {
               // auto resize textarea
               e.target.style.height = "auto";
               e.target.style.height = `${Math.min(e.target.scrollHeight, 140)}px`;
+            }}
+            onPaste={(e) => {
+              const text = e.clipboardData?.getData("text");
+              if (!text) return;
+              e.preventDefault();
+              const target = e.currentTarget;
+              const start = target.selectionStart ?? draft.length;
+              const end = target.selectionEnd ?? draft.length;
+              const nextVal = draft.slice(0, start) + text + draft.slice(end);
+              setDraft(nextVal);
+              requestAnimationFrame(() => {
+                if (textareaRef.current) {
+                  textareaRef.current.selectionStart = textareaRef.current.selectionEnd = start + text.length;
+                  textareaRef.current.style.height = "auto";
+                  textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 140)}px`;
+                }
+              });
             }}
             onKeyDown={(e) => {
               if (e.key === "Enter" && !e.shiftKey) {
