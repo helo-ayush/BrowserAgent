@@ -31,8 +31,8 @@ export interface ChatSession {
   activeRunId?: string | null;
 }
 
-const SESSIONS_STORAGE_KEY = "agentbrow_chat_sessions_v1";
-const ACTIVE_SESSION_STORAGE_KEY = "agentbrow_active_session_id_v1";
+const SESSIONS_STORAGE_KEY = "vista_chat_sessions_v1";
+const ACTIVE_SESSION_STORAGE_KEY = "vista_active_session_id_v1";
 
 function createNewSession(title = "New task"): ChatSession {
   const now = Date.now();

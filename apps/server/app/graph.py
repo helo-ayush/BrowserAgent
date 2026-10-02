@@ -14,7 +14,7 @@ from langgraph.graph import END, START, StateGraph
 from .models import ActionPlan
 
 load_dotenv(find_dotenv(usecwd=True))
-logger = logging.getLogger("agentbrow.graph")
+logger = logging.getLogger("vista.graph")
 
 FALLBACK_1X1_PNG = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAAAAAA6fptVAAAACklEQVR4nGNiAAAABgADNjd8qAAAAABJRU5ErkJggg=="
 

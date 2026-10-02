@@ -1,7 +1,7 @@
-# VISTA / AgentBrow: On-Device Visual Perception & Privacy-First Browser Agent
+# VISTA: On-Device Visual Perception & Privacy-First Browser Agent
 > **Smart India Hackathon (SIH26171 - ISRO)**: *On-device Visual Perception for Light-weight Browser Agents*
 
-VISTA (AgentBrow) is an autonomous, privacy-preserving multimodal browser agent delivered as a lightweight Chrome Extension (Manifest V3) powered by an agentic LangGraph backend. It executes end-to-end multi-step web tasks directly inside the user's active, authenticated browser tab—combining visual reasoning with an on-device perception and privacy firewall (*See ➔ Detect ➔ Redact ➔ Sanitize ➔ Act*).
+VISTA is an autonomous, privacy-preserving multimodal browser agent delivered as a lightweight Chrome Extension (Manifest V3) powered by an agentic LangGraph backend. It executes end-to-end multi-step web tasks directly inside the user's active, authenticated browser tab—combining visual reasoning with an on-device perception and privacy firewall (*See ➔ Detect ➔ Redact ➔ Sanitize ➔ Act*).
 
 ---
 
@@ -98,7 +98,7 @@ To load the extension in Google Chrome:
 1. Open Chrome and navigate to `chrome://extensions`.
 2. Enable **Developer mode** (toggle in the top-right corner).
 3. Click **Load unpacked** and select the `apps/extension/dist` directory.
-4. Click the extensions puzzle icon in Chrome and pin **AgentBrow** (VISTA) to your toolbar.
+4. Click the extensions puzzle icon in Chrome and pin **VISTA** to your toolbar.
 5. Click the icon to open the Side Panel interface.
 
 For development with hot re-compilation:

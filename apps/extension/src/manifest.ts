@@ -2,7 +2,7 @@ import type { ManifestV3Export } from "@crxjs/vite-plugin";
 
 const manifest: ManifestV3Export = {
   manifest_version: 3,
-  name: "AgentBrow",
+  name: "VISTA",
   version: "0.1.0",
   description: "A visible, user-controlled browser agent.",
   icons: {
@@ -18,7 +18,7 @@ const manifest: ManifestV3Export = {
   host_permissions: ["<all_urls>"],
   background: { service_worker: "src/background/service-worker.ts", type: "module" },
   action: {
-    default_title: "Open AgentBrow",
+    default_title: "Open VISTA",
     default_icon: {
       "16": "icon16.png",
       "32": "icon32.png",

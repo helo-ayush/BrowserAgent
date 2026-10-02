@@ -41,7 +41,7 @@ class Run:
             self.recent_action_signatures = deque(maxlen=12)
 
 
-app = FastAPI(title="AgentBrow LangGraph Server", version="0.1.0")
+app = FastAPI(title="VISTA LangGraph Server", version="0.1.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173"],

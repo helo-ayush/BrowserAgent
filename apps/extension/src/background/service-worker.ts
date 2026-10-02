@@ -40,7 +40,7 @@ let activeTabId: number | null = null;
 let runTask = "";
 let pauseResolvers: Array<() => void> = [];
 
-const STATE_STORAGE_KEY = "AGENTBROW_WORKER_STATE";
+const STATE_STORAGE_KEY = "VISTA_WORKER_STATE";
 
 async function persistState() {
   const state = {

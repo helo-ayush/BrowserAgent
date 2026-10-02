@@ -8,7 +8,7 @@ import type {
   BridgeErrorCode,
 } from "../protocol";
 
-const LOCK_ID = "agentbrow-page-lock";
+const LOCK_ID = "vista-page-lock";
 let pageLocked = false;
 let targetMapRevision = 0;
 let lastViewportSignature = "";
@@ -60,7 +60,7 @@ function renderPageLock(locked: boolean) {
     overlay.id = LOCK_ID;
     overlay.setAttribute("role", "status");
     overlay.setAttribute("aria-live", "polite");
-    overlay.innerHTML = '<span class="agentbrow-lock-label">Agent is working · page locked</span>';
+    overlay.innerHTML = '<span class="vista-lock-label">Agent is working · page locked</span>';
     overlay.style.cssText = [
       "position:fixed",
       "inset:0",
@@ -76,7 +76,7 @@ function renderPageLock(locked: boolean) {
       "color:#165eb8",
       "text-align:center",
     ].join(";");
-    const label = overlay.querySelector<HTMLElement>(".agentbrow-lock-label");
+    const label = overlay.querySelector<HTMLElement>(".vista-lock-label");
     if (label) {
       label.style.cssText = [
         "display:inline-block",

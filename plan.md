@@ -1,4 +1,4 @@
-# AgentBrow implementation plan
+# VISTA implementation plan
 
 ## Product goal
 

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "AgentBrow action",
+  "title": "VISTA action",
   "type": "object",
   "required": ["type", "description"],
   "properties": {
